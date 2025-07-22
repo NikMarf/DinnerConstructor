@@ -9,14 +9,22 @@ public class DinnerConstructor {
         storingDishData = new HashMap<>();
     }
 
-    void addDish(String typeDish, String nameDish) {
-        if (storingDishData.containsKey(typeDish)) {
-            ArrayList<String> namesDishesInType = storingDishData.get(typeDish);
+    boolean checkType(String typeOfDishes) {
+        boolean isTypeExists = false;
+        if (storingDishData.containsKey(typeOfDishes)) {
+            isTypeExists = true;
+        }
+        return isTypeExists;
+    }
+
+    void addDish(String typeOfDishes, String nameDish) {
+        if (storingDishData.containsKey(typeOfDishes)) {
+            ArrayList<String> namesDishesInType = storingDishData.get(typeOfDishes);
             namesDishesInType.add(nameDish);
         } else {
             ArrayList<String> namesDishesInType = new ArrayList<>();
             namesDishesInType.add(nameDish);
-            storingDishData.put(typeDish, namesDishesInType);
+            storingDishData.put(typeOfDishes, namesDishesInType);
         }
     }
 
@@ -24,18 +32,19 @@ public class DinnerConstructor {
         ArrayList<String> listDishInCombo = new ArrayList<>();
         Random rnd = new Random();
         for (int i = 0; i < numbersCombination; i++) {
-            System.out.println("Комбо " + i);
+            System.out.println("Комбо " + (i+1));
             ArrayList<String> dishes = new ArrayList<>();
             for (String types : listTypeDish) {
                 if (storingDishData.containsKey(types)) {
                     dishes = storingDishData.get(types);
-                    listDishInCombo.add(dishes.get(rnd.nextInt(dishes.size()-1)));
+                    listDishInCombo.add(dishes.get(rnd.nextInt(dishes.size())));
                 }
             }
-            if (listDishInCombo.size() != listTypeDish.size()) {
-                System.out.println("Комбо неполное. Убедитесь что правильно ввели типы блюд.");
-            }
             System.out.println(listDishInCombo);
+            if (listDishInCombo.size() != listTypeDish.size()) {
+                System.out.println("Комбо неполное. Убедитесь что правильно ввели все типы блюд.");
+            }
+            listDishInCombo.clear();
         }
     }
 }
